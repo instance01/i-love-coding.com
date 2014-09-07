@@ -1,4 +1,4 @@
-i-love-coding.com
+http://www.i-love-coding.com/
 =================
 
 I love coding, do YOU love coding?

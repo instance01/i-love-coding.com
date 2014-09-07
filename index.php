@@ -1,9 +1,6 @@
-<?php ob_start("ob_gzhandler"); ?>
 <?php
-include("config.php");
-
-// for the blog later
-// connect();
+ob_start("ob_gzhandler");
+session_start();
 
 ?>
 <!doctype html>
@@ -23,30 +20,19 @@ include("config.php");
 <script type="text/javascript">
 
 $(document).ready(function(){
-	$('.main.menu').fadeOut(0);
-
-	$('.main.menu .item').tab();
-	$('a.red').click(function(e) {
-		$('.main.menu .item').tab('change tab', 'home');
-	});
-	$('a.blue').click(function(e) {
-		$('.main.menu .item').tab('change tab', 'blog');
-	});
-
 	if(document.cookie.length > 1){
-		$('.main.menu').fadeIn(0);
 		$('body').css('background-color', '#FFF');
 	}
 
 	$('a.coding').click(function(e) {
-		$('.main.menu').fadeIn(1000);
 		$('body').css('background-color', '#FFF');
 		document.cookie = "clicked";
 		
 		$.ajax({
-			url: "add.php",
+			url: "add.php?u=" + $('#u').val(),
 			success: function(data){
-				$('.coding').html(data);
+				location.reload();
+				$('.content').html(data);
 			}
 		}); 
 	});
@@ -91,24 +77,29 @@ $(document).ready(function(){
 </head>
 <body>
 
-<div class="ui pointing secondary main menu">
-  <a class="active red item" data-tab="home">Home</a>
-  <a class="blue item" data-tab="blog">Blog</a>
-</div>
-<div class="ui active tab" data-tab="home">
-	<center>
-		<div class="content">
-		<a href="#" class="coding">
-		 I Love Coding
-		</a>
-		</div>
-    </center>
-</div>
+<center>
+<?php
+if (!isset($_SESSION['visited']))
+{
+	echo('<div class="ui action input"><input placeholder="Username" type="text" id="u"><a href="#" class="ui black button coding">I Love Coding</a></div></div>');
+}
+?>
+</center>
 
-<div class="ui tab" data-tab="blog">
-Working on it.
-</div>
+<h3>Persons who love coding</h3>
+<div class="content">
+<?php
+$file;
+if(file_exists("likes.txt") && filesize("likes.txt") > 0){
+	$file = fopen("likes.txt", "r+");
+	$content = fread($file, filesize("likes.txt"));
+	echo($content);
+	fclose($file);
+}
 
+
+?> 
+</div>
 
 </body>
 </html>

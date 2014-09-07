@@ -4,6 +4,9 @@ $filename = "likes.txt";
 if(!isset($_GET['u'])){
 	return;
 }
+if(isset($_SESSION['visited'])){
+	return;	
+}
 
 $file;
 if(file_exists($filename) && filesize($filename) > 0){

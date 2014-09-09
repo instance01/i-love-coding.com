@@ -13,7 +13,7 @@ if(file_exists($filename) && filesize($filename) > 0){
 	$file = fopen($filename, "r+");
 	$content = fread($file, filesize($filename));
 	fclose($file);
-	if(strlen($_GET['u']) > 1 && strrpos($content, $_GET['u']) === FALSE){
+	if(strlen($_GET['u']) > 1 && strlen($_GET['u']) < 30 && strrpos($content, $_GET['u']) === FALSE){
 		$content .= ", ".$_GET['u'];
 		$_SESSION['visited'] = "true";
 	}

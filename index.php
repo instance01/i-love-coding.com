@@ -2,6 +2,9 @@
 ob_start("ob_gzhandler");
 session_start();
 
+include("config.php");
+connect();
+
 ?>
 <!doctype html>
 <html>
